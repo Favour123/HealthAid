@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Citizens Reporting",
+    "slug": "citizens-reporting",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Citizens Reporting uses your location to tag where an incident happened."
+      }
+    },
+    "android": {
+      "package": "com.citizensreporting.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Citizens Reporting accesses your photos so you can attach evidence to an incident report.",
+          "cameraPermission": "Citizens Reporting uses your camera so you can photograph an incident to report."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Citizens Reporting uses your location to tag where an incident happened."
+        }
+      ]
+    ]
+  }
+}

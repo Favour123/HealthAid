@@ -1,0 +1,10 @@
+export enum IncidentCategory {
+  ACCIDENT = 'ACCIDENT',
+  FIGHTING = 'FIGHTING',
+  RIOTING = 'RIOTING',
+  FIRE = 'FIRE',
+  THEFT = 'THEFT',
+  VANDALISM = 'VANDALISM',
+  MEDICAL = 'MEDICAL',
+  OTHER = 'OTHER',
+}
