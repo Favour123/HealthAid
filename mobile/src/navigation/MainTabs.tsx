@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FeedScreen } from '../screens/FeedScreen';
 import { AddIncidentScreen } from '../screens/AddIncidentScreen';
 import { MyReportsScreen } from '../screens/MyReportsScreen';
@@ -18,13 +19,20 @@ const ICONS: Record<keyof MainTabParamList, keyof typeof Ionicons.glyphMap> = {
 };
 
 export function MainTabs() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { borderTopColor: colors.border, height: 60, paddingBottom: 8, paddingTop: 6 },
+        tabBarStyle: {
+          borderTopColor: colors.border,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom + 8,
+          paddingTop: 6,
+        },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
         tabBarIcon: ({ color, size }) => (
           <Ionicons name={ICONS[route.name]} size={size} color={color} />
