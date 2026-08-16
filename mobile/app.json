@@ -45,6 +45,11 @@
           "locationWhenInUsePermission": "Citizens Reporting uses your location to tag where an incident happened."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "85c1ec5c-a80e-42ec-bfb5-5223d0620f25"
+      }
+    }
   }
 }

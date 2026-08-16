@@ -74,41 +74,33 @@ If the app can't reach the server (a banner will say so on login), double check:
 
 ## Deploying to production (backend on Render + Android APK)
 
-Code and repo (`https://github.com/Favour123/HealthAid`) are already set up for this. What's left needs your own accounts — I can't complete account creation or interactive logins for you.
+### A. Backend on Render — done
 
-### A. Deploy the backend on Render
-
-1. Go to [Render](https://dashboard.render.com) → **New** → **Blueprint**.
-2. Connect the `Favour123/HealthAid` GitHub repo. Render will read `render.yaml` at the repo root and propose one web service (`citizens-reporting-api`), built from `backend/` via its `Dockerfile`, on the free plan.
-3. When prompted for the `DATABASE_URL` env var (marked as a manual secret, not stored in the repo), paste the Neon connection string from `backend/.env` (the `citizens_reporting` database — not the one your other project uses).
-4. Deploy. Render will run `prisma migrate deploy` then start the API. Once live, note the URL — something like `https://citizens-reporting-api.onrender.com` (Render may add a random suffix if that exact name is taken; check the actual URL in the dashboard).
-5. Confirm it's up: `https://<your-render-url>/api/health` should return `{"status":"ok"}`.
+Deployed at **https://citizens-reporting-api.onrender.com** (Blueprint `exs-da0gr90jo6nc73egom80`, built from `backend/`'s `Dockerfile` via `render.yaml`). Health check: `https://citizens-reporting-api.onrender.com/api/health` → `{"status":"ok"}`.
 
 Note: the free plan's disk is ephemeral — uploaded incident photos are lost if the service restarts/redeploys (registered users and incidents are safe, since those live in Postgres). Fine for a demo; revisit with persistent/object storage if this needs to be permanent.
 
-### B. Point the mobile app at the deployed backend
+### B. Mobile app pointed at the deployed backend — done
 
-Once you have the real Render URL, update `mobile/eas.json`'s `preview` and `production` build profiles — replace the placeholder:
+`mobile/eas.json`'s `preview` and `production` build profiles already set `EXPO_PUBLIC_API_URL`/`EXPO_PUBLIC_SOCKET_URL` to the Render URL above, and `mobile/app.json` already has the EAS project linked (`extra.eas.projectId: 85c1ec5c-a80e-42ec-bfb5-5223d0620f25`).
 
-```json
-"env": {
-  "EXPO_PUBLIC_API_URL": "https://<your-render-url>/api",
-  "EXPO_PUBLIC_SOCKET_URL": "https://<your-render-url>"
-}
-```
+### C. Build the APK with EAS — needs your login
 
-### C. Build the APK with EAS
-
-This needs your own Expo account (free) since there's no Android SDK on this machine for a local build:
+This is the one step that needs you personally: EAS builds require an authenticated Expo account, and login is interactive (I can't complete it on your behalf). Once you're logged in here, I can trigger and monitor the actual build.
 
 ```bash
 cd mobile
-npx eas login          # log in / sign up at expo.dev — do this yourself, interactively
-npx eas init            # links this project to your Expo account (accept the prompts)
-npx eas build -p android --profile preview   # builds an installable .apk in the cloud
+npx eas-cli login          # log in to your Expo account — do this yourself, interactively
+npx eas-cli whoami          # confirms you're logged in
 ```
 
-`eas build` prints a progress URL and, when done, a download link for the `.apk`. Install it on any Android phone (enable "install from unknown sources" if prompted) — it'll talk to your Render-hosted backend directly, from any network, no Expo Go or dev server needed.
+Then tell me you're logged in and I'll run:
+
+```bash
+npx eas-cli build -p android --profile preview --non-interactive
+```
+
+`eas build` prints a progress URL and, when done, a download link for the `.apk`. Install it on any Android phone (enable "install from unknown sources" if prompted) — it'll talk to the Render-hosted backend directly, from any network, no Expo Go or dev server needed.
 
 ## Project layout
 

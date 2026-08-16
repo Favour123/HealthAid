@@ -1,5 +1,5 @@
 node_modules/
 .DS_Store
 *.log
-.claude/settings.json
-mobile/.claude/settings.json
+.claude/
+mobile/.claude/
